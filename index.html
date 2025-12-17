@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MIRAKO Spa — Landing (Accordion)</title>
+  <!-- Montserrat from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    .toggle-btn {
+      background: rgba(255, 255, 255, 0.08);
+      /* subtle light-on-red */
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #fff;
+      /* arrow color */
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .logo {
+      text-align: center;
+      margin-top: -70px;
+      margin-bottom: 24px;
+    }
+
+    /* 
+#site-logo {
+  width: 220px;
+  height: auto;
+} */
+    /* Replace /fonts/Termina.woff2 with your real Termina font file path (woff2 recommended) */
+    /* If you don't have Termina, use a close condensed sans-serif fallback */
+    @font-face {
+      font-family: 'Termina';
+      src: url('/fonts/Termina.woff2') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --brand-red: #5a0b0b;
+      /* adjust to match logo */
+      --cream: #FFFBEA;
+      --white: #FFFBEA;
+      --max-width: 1200px;
+    }
+
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      background: var(--brand-red);
+      font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: var(--cream);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 40px auto;
+      padding: 36px;
+    }
+
+    /* Header / Logo */
+    .logo {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .logo img {
+      max-width: 260px;
+      height: auto;
+      display: inline-block;
+    }
+
+    /* Card */
+    .card {
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06));
+      padding: 28px;
+      border-radius: 8px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Accordion styles */
+    .accordion {
+      margin-top: 6px;
+    }
+
+    .accordion-item+.accordion-item {
+      margin-top: 10px;
+    }
+
+    .accordion-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      background: transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 150ms ease;
+    }
+
+    .accordion-header:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .title-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-number {
+      font-family: 'Termina', 'Oswald', 'Arial Narrow', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.02em;
+      color: var(--white);
+    }
+
+    .section-title {
+      font-family: 'Termina', 'Oswald', 'Arial Narrow', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .chev {
+      width: 20px;
+      height: 20px;
+      transform-origin: center;
+      transition: transform 250ms ease;
+      flex-shrink: 0;
+      display: inline-block;
+    }
+
+    /* Panel */
+    .panel {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 350ms ease;
+      padding: 0 14px;
+    }
+
+    .panel.open {
+      /* max-height set via JS */
+    }
+
+    .panel-inner {
+      padding: 14px 0 18px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    /* Subitems inside first panel */
+    .subitem {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .subitem img.icon {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 8px;
+    }
+
+    .subcontent h4 {
+      margin: 0 0 6px 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .subcontent p {
+      margin: 0;
+      font-size: 13.5px;
+      color: var(--cream);
+      line-height: 1.45;
+    }
+
+    .arrow-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .arrow-list li {
+      position: relative;
+      padding-left: 22px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--white);
+    }
+
+    .arrow-list li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--white);
+    }
+
+
+    /* Small bullets list */
+    .bullets {
+      margin-top: 8px;
+      margin-left: 52px;
+    }
+
+    .bullets li {
+      margin-bottom: 6px;
+      font-size: 13.2px;
+      color: var(--cream);
+      list-style: disc;
+    }
+
+    /* QR box */
+    .qr-wrap {
+      margin-top: 18px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .qr-placeholder {
+      width: 92px;
+      height: 92px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--brand-red);
+      border-radius: 6px;
+      font-size: 12px;
+      text-align: center;
+      padding: 6px;
+    }
+
+    .qr-note {
+      font-size: 13px;
+      color: var(--cream);
+    }
+
+    /* responsiveness */
+    @media (max-width:720px) {
+      .container {
+        padding: 20px;
+        margin: 20px;
+      }
+
+      .section-title {
+        font-size: 16px;
+      }
+
+      .section-number {
+        font-size: 14px;
+      }
+
+      .subitem img.icon {
+        width: 36px;
+        height: 36px;
+      }
+
+      .qr-placeholder {
+        width: 72px;
+        height: 72px;
+        font-size: 11px;
+      }
+    }
+
+    /* reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+
+      .chev,
+      .panel {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" role="main">
+    <div class="logo">
+      <!-- Replace 'logo.png' with the exact filename of your uploaded logo if different -->
+      <img src="MirakoSpaLogo.png" alt="MIRAKO Spa Logo" id="site-logo">
+    </div>
+
+    <div class="card" aria-label="MIRAKO Spa aftercare list">
+      <div class="accordion" id="accordion">
+
+        <!-- Section 1 -->
+        <div class="accordion-item">
+          <div class="accordion-header" id="header-1">
+            <div class="title-left">
+              <div class="section-number">1.</div>
+              <div class="section-title">MICROPEN/PRP AFTERCARE</div>
+            </div>
+            <button class="toggle-btn" aria-expanded="false" aria-controls="panel-1"
+              aria-label="Toggle MICROPEN/PRP AFTERCARE">
+              <!-- Caret SVG -->
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                aria-hidden="true">
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </button>
+          </div>
+          <div id="panel-1" class="panel" role="region" aria-hidden="true" aria-labelledby="header-1">
+            <div class="panel-inner">
+
+              <!-- Subitem: Protect From The Sun -->
+              <div class="subitem">
+                <img class="icon" src="icon1.png" alt="Protect From The Sun icon">
+
+                <div class="subcontent">
+                  <h4>Protect From The Sun</h4>
+
+                  <ul class="arrow-list">
+                    <li>Avoid direct sunlight for 7–14 days (ideally 30).</li>
+                    <li>Use SPF 50+ and reapply every 2 hours.</li>
+                    <li>Avoid tanning beds or artificial tanning.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Subitem: Keep Skin Clean & Hydrated -->
+              <div class="subitem">
+                <img class="icon" src="icon3.png" alt="Keep Skin Clean & Hydrated icon">
+
+                <div class="subcontent">
+                  <h4>Keep Skin Clean &amp; Hydrated</h4>
+
+                  <ul class="arrow-list">
+                    <li>Cleanse gently with mild cleanser and lukewarm water.</li>
+                    <li>Avoid harsh scrubs or exfoliants for 7 days.</li>
+                    <li>Avoid fragrance products and makeup for 24 hours.</li>
+                    <li>Use a light moisturizer (e.g., Hyaluronic Acid).</li>
+                    <li>Avoid retinoids, vitamin C, AHAs/BHAs for 1 week.</li>
+                  </ul>
+                </div>
+              </div>
+
+
+              <!-- Subitem: Avoid Certain Activities -->
+              <div class="subitem">
+                <img class="icon" src="icon2.png" alt="Avoid Certain Activities icon">
+
+                <div class="subcontent">
+                  <h4>Avoid Certain Activities</h4>
+
+                  <ul class="arrow-list">
+                    <li>Avoid strenuous exercise, saunas, steam rooms, and hot showers for 24–72 hours.</li>
+                    <li>Do not pick or scratch the skin.</li>
+                    <li>Avoid swimming for 3 days.</li>
+                  </ul>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Sections 2-7 -->
+
+        <div class="accordion-item">
+          <div class="accordion-header" id="header-2">
+            <div class="title-left">
+              <div class="section-number">2.</div>
+              <div class="section-title">BOTOX AFTERCARE</div>
+            </div>
+            <button class="toggle-btn" aria-expanded="false" aria-controls="panel-2"
+              aria-label="Toggle BOTOX AFTERCARE">
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                aria-hidden="true">
+                <path d="M6 9l6 6 6-6"></path>
+              </svg>
+            </button>
+          </div>
+          <div id="panel-2" class="panel" role="region" aria-hidden="true" aria-labelledby="header-2">
+            <div class="panel-inner">
+              <!-- Subitem: After Treatment -->
+              <!-- After Treatment -->
+              <div class="subitem">
+                <img class="icon" src="aftertreatment.png" alt="After Treatment icon">
+
+                <div class="subcontent">
+                  <h4>After Treatment</h4>
+
+                  <ul class="arrow-list">
+                    <li>Mild bruising, headache, or inflammation may occur.</li>
+                    <li>Final results appear in 14 days.</li>
+                    <li>Contact your specialist if excessive redness or pain occurs.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- For 4 Hours -->
+              <div class="subitem">
+                <img class="icon" src="4h.png" alt="For 4 Hours icon">
+
+                <div class="subcontent">
+                  <h4>For 4 Hours</h4>
+
+                  <ul class="arrow-list">
+                    <li>Do not touch the injection sites or lie down.</li>
+                    <li>Avoid makeup for 4–6 hours.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- For 4 Hours -->
+              <div class="subitem">
+                <img class="icon" src="24h.png" alt="For 24 Hours">
+
+                <div class="subcontent">
+                  <h4>For 24 Hours</h4>
+
+                  <ul class="arrow-list">
+                    <li>Avoid exercise, saunas, or facials</li>
+                    <li>No alcohol</li>
+                    <li>Avoid direct sunlight, as heat may affect results..</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <div class="accordion-header" id="header-3">
+              <div class="title-left">
+                <div class="section-number">3.</div>
+                <div class="section-title">TATTOO REMOVAL</div>
+              </div>
+              <button class="toggle-btn" aria-expanded="false" aria-controls="panel-3"
+                aria-label="Toggle TATTOO REMOVAL">
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  aria-hidden="true">
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </button>
+            </div>
+            <div id="panel-3" class="panel" role="region" aria-hidden="true" aria-labelledby="header-3">
+              <div class="panel-inner">
+                <div class="subitem">
+                  <img class="icon" src="aftertreatment.png" alt="After Treatment icon">
+
+                  <div class="subcontent">
+                    <h4>After Treatment</h4>
+
+                    <ul class="arrow-list">
+                      <li>Bruising, swelling, blistering, and discomfort may occur.</li>
+                      <li>Healing varies by individual.</li>
+                      <li>Hair in the treated area may turn white or burn; white hair will not regain color.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- For 4 Hours -->
+                <div class="subitem">
+                  <img class="icon" src="care.png" alt="For 4 Hours icon">
+
+                  <div class="subcontent">
+                    <h4>Care Instructions</h4>
+
+                    <ul class="arrow-list">
+                      <li>Use SPF 50+ daily</li>
+                      <li>Apply ointment twice a day for one week.</li>
+                      <li>Apply cold compress to reduce swelling.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- For 4 Hours -->
+                <div class="subitem">
+                  <img class="icon" src="icon2.png" alt="For 24 Hours">
+
+                  <div class="subcontent">
+                    <h4>Avoid</h4>
+
+                    <ul class="arrow-list">
+                      <li>Do not touch the area or pick scabs/blisters.</li>
+                      <li>Avoid strenuous exercise, saunas, and hot showers for 24–72 hours.</li>
+                      <li>No alcohol for 24 hours.</li>
+                      Multiple sessions may be required. See you in 4–6 weeks.
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <div class="accordion-header" id="header-4">
+              <div class="title-left">
+                <div class="section-number">4.</div>
+                <div class="section-title">LASERS</div>
+              </div>
+              <button class="toggle-btn" aria-expanded="false" aria-controls="panel-4" aria-label="Toggle LASERS">
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  aria-hidden="true">
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </button>
+            </div>
+            <div id="panel-4" class="panel" role="region" aria-hidden="true" aria-labelledby="header-4">
+              <div class="panel-inner">
+                <div class="subitem">
+                  <img class="icon" src="aftertreatment.png" alt="After Treatment icon">
+
+                  <div class="subcontent">
+                    <h4>After Treatment</h4>
+
+                    <ul class="arrow-list">
+                      <li>Warmth or flushing for 1–2 hours is normal.</li>
+                      <li>Avoid touching or rubbing the area.</li>
+              
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- For 4 Hours -->
+                <div class="subitem">
+                  <img class="icon" src="24h.png" alt="For 4 Hours icon">
+
+                  <div class="subcontent">
+                    <h4>For 24 Hours</h4>
+
+                    <ul class="arrow-list">
+                      <li>Avoid hot showers, saunas, steam rooms, and heavy workouts.</li>
+                      <li> Avoid makeup if possible.</li>
+                      <li> No exfoliants or harsh scrubs.</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- For 4 Hours -->
+                <div class="subitem">
+                  <img class="icon" src="57.png" alt="For 24 Hours">
+
+                  <div class="subcontent">
+                    <h4>For the Next 5–7 Days</h4>
+
+                    <ul class="arrow-list">
+                      <li>Use gentle cleanser and hydrating moisturizer.</li>
+                      <li>Apply SPF 30+ daily.</li>
+                      <li>Avoid retinol, AHA/BHA acids, benzoyl peroxide, or active ingredients.</li>
+                       <li>Avoid sun exposure or tanning.</li>
+                       See you in 2–3 weeks.
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <div class="accordion-header" id="header-5">
+              <div class="title-left">
+                <div class="section-number">5.</div>
+                <div class="section-title">SCULPTRA</div>
+              </div>
+              <button class="toggle-btn" aria-expanded="false" aria-controls="panel-5" aria-label="Toggle SKIN PEELS">
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  aria-hidden="true">
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </button>
+            </div>
+            <div id="panel-5" class="panel" role="region" aria-hidden="true" aria-labelledby="header-5">
+              <div class="panel-inner">
+                <div class="subitem">
+                  <img class="icon" src="aftertreatment.png" alt="After Treatment icon">
+
+                  <div class="subcontent">
+                    <h4>After Treatment</h4>
+
+                    <ul class="arrow-list">
+                      <li>Mild bruising, headache, or inflammation may occur.</li>
+                      <li>Mild bumps, swelling, redness, or bruising are normal.</li>
+                      <li>Avoid touching or massaging the area for 24 hours if tender.</li>
+                 
+                    </ul>                  </div>
+                </div>
+                <div class="subitem">
+                  <img class="icon" src="massage1.png" alt="After Treatment icon">
+
+                  <div class="subcontent">
+                    <h4>Massage (Crucial)</h4>
+
+                    <ul class="arrow-list">
+                      <li>After 24 hours: massage for 5 minutes, 5 times a day, for 5 days to help distribute the product evenly and prevent nodules.</li>
+                      <li>Use moisturizer to reduce friction.</li>
+                    
+                    </ul>
+                  </div>
+                </div>
+                <div class="subitem">
+                  <img class="icon" src="care.png" alt="After Treatment icon">
+
+                  <div class="subcontent">
+                    <h4>Additional Care</h4>
+
+                    <ul class="arrow-list">
+                      <li>Apply ice packs briefly to reduce swelling.</li>
+                      <li>Avoid NSAIDs (ibuprofen, naproxen); take Tylenol if needed.</li>
+                      <li>Use SPF 30+ daily.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="subitem">
+                  <img class="icon" src="icon2.png" alt="After Treatment icon">
+
+                  <div class="subcontent">
+                    <h4>Avoid</h4>
+
+                    <ul class="arrow-list">
+                      <li>Strenuous exercise, heat exposure, or heavy sweating for 24–48 hours.</li>
+                      <li>No alcohol for 24 hours.</li>
+                      <li>Avoid cosmetic procedures for 2 weeks.</li>
+                      <li>Avoid sun and tanning for 1–2 weeks.</li>
+                      <li>Avoid harsh exfoliants or retinoids for a few days.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <div class="accordion-header" id="header-6">
+              <div class="title-left">
+                <div class="section-number">6.</div>
+                <div class="section-title">THERMAGE</div>
+              </div>
+              <button class="toggle-btn" aria-expanded="false" aria-controls="panel-6" aria-label="Toggle THERMAGE">
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  aria-hidden="true">
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </button>
+            </div>
+            <div id="panel-6" class="panel" role="region" aria-hidden="true" aria-labelledby="header-6">
+              <div class="panel-inner">
+                <div class="subitem">
+                  <img class="icon" src="aftertreatment.png" alt="After Treatment icon">
+
+                  <div class="subcontent">
+                    <h4>After Treatment</h4>
+
+                    <ul class="arrow-list">
+                      <li>Mild redness, swelling, tingling, or tightness is normal and fades within hours to a day.</li>
+                      <li>Skin tightening improves over 2–6 months.</li>
+                      <li>Gentle cleansing and moisturizing are recommended.</li>
+                      <li>Makeup is safe once redness subsides. Use SPF 30+.</li>
+                      <li>Avoid lasers, microneedling, or peels for 1–2 weeks.</li>
+                      <li>Avoid retinoids, vitamin C, AHAs/BHAs for 1 week.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="subitem">
+                  <img class="icon" src="24h.png" alt="After Treatment icon">
+
+                  <div class="subcontent">
+                    <h4>For 24 Hours
+</h4>
+
+                    <ul class="arrow-list">
+                      <li>Avoid hot showers, saunas, steam rooms, or intense workouts.</li>
+                      <li>Do not rub or massage unless instructed.</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <div class="accordion-header" id="header-7">
+              <div class="title-left">
+                <div class="section-number">7.</div>
+                <div class="section-title">ULTHERAPY</div>
+              </div>
+              <button class="toggle-btn" aria-expanded="false" aria-controls="panel-7" aria-label="Toggle ULTHERAPY">
+                <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  aria-hidden="true">
+                  <path d="M6 9l6 6 6-6"></path>
+                </svg>
+              </button>
+            </div>
+            <div id="panel-7" class="panel" role="region" aria-hidden="true" aria-labelledby="header-7">
+              <div class="panel-inner">
+                <div class="subitem">
+                  <img class="icon" src="aftertreatment.png" alt="After Treatment icon">
+
+                  <div class="subcontent">
+                    <h4>After Treatment</h4>
+
+                    <ul class="arrow-list">
+                      <li>Mild redness, swelling, tenderness, bruising, or tingling is normal and resolves within hours to a day. </li>
+                      <li>Collagen improvement continues for 2–3 months.</li>
+                      <li>Gentle cleansing and moisturizing recommended.</li>
+                      <li>Makeup may be worn once redness/tenderness improves.</li>
+                      <li>Use SPF 30+.</li>
+                      <li>Avoid retinoids, vitamin C, AHAs/BHAs for 1 week.</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="subitem">
+                  <img class="icon" src="24h.png" alt="After Treatment icon">
+
+                  <div class="subcontent">
+                    <h4>For 24 Hours</h4>
+
+                    <ul class="arrow-list">
+                      <li>Avoid hot showers, saunas, steam rooms, or heavy workouts. </li>
+                      <li>Do not massage or apply strong pressure.</li>
+                      <li>Avoid facial procedures (laser, microneedling, chemical peels) for 1–2 weeks.</li>
+                    
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <!-- <div class="qr-wrap">
+          <div class="qr-placeholder" aria-hidden="true">QR CODE<br>(replace with QR image)</div>
+          <div class="qr-note">
+            Scan to open landing page. Replace the QR placeholder with a static QR image that points to your final
+            landing
+            page URL (e.g. https://yourdomain.com/landing). Static QR has no expiry as long as the URL remains active.
+          </div>
+        </div> -->
+
+      </div>
+    </div>
+
+   <script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const items = document.querySelectorAll('.accordion-item');
+
+    function closeItem(item) {
+      const btn = item.querySelector('.toggle-btn');
+      const panel = item.querySelector('.panel');
+      const svg = btn.querySelector('.chev');
+
+      btn.setAttribute('aria-expanded', 'false');
+      panel.setAttribute('aria-hidden', 'true');
+      panel.style.maxHeight = null;
+      if (svg) svg.style.transform = 'rotate(0deg)';
+    }
+
+    function openItem(item) {
+      const btn = item.querySelector('.toggle-btn');
+      const panel = item.querySelector('.panel');
+      const svg = btn.querySelector('.chev');
+
+      btn.setAttribute('aria-expanded', 'true');
+      panel.setAttribute('aria-hidden', 'false');
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+      if (svg) svg.style.transform = 'rotate(180deg)';
+    }
+
+    items.forEach(item => {
+      const header = item.querySelector('.accordion-header');
+      const btn = item.querySelector('.toggle-btn');
+      const panel = item.querySelector('.panel');
+
+      function toggleCurrent() {
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+        // 🔴 CLOSE ALL OTHER ITEMS
+        items.forEach(other => {
+          if (other !== item) closeItem(other);
+        });
+
+        // 🟢 TOGGLE CURRENT
+        if (isOpen) {
+          closeItem(item);
+        } else {
+          openItem(item);
+        }
+      }
+
+      header.addEventListener('click', function (e) {
+        if (e.target.closest('button')) return;
+        toggleCurrent();
+      });
+
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        toggleCurrent();
+      });
+
+      btn.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleCurrent();
+        }
+      });
+    });
+
+    // ResizeObserver để cập nhật chiều cao panel đang mở
+    const ro = new ResizeObserver(entries => {
+      entries.forEach(entry => {
+        const panel = entry.target;
+        if (panel.getAttribute('aria-hidden') === 'false') {
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
+      });
+    });
+
+    document.querySelectorAll('.panel').forEach(p => ro.observe(p));
+  });
+</script>
+
+</body>
+
+</html>
